@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            background-origin: border-box;
+            background: #2e2e2e;
+        }
+        .location {
+            width: 80%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 2rem;
+            text-align: center;
+            color: rgba(0, 255, 0, 0.8);
+            /* text-shadow: 2px #000; */
+            font-size: 1rem;
+            box-shadow: 0px 5px 30px #000;
+            border-radius: 1rem;
+            font-variant: small-caps;
+        }
+        #getLocationBtn {
+            display: none;
+        }
+        h3 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+         
+    </style>
+</head>
+<body>
+    <div class='location'>
+        <h3></h3>
+        <img src="" alt="Smiley face">
+        <p id="ip"></p>
+        <p id="city"></p>
+        <p id="region"></p>
+        <p id="province"></p>
+        <p id="country"></p>
+        <p id="location"></p>
+        <p id="org"></p>
+        <p id="timeZone"></p>
+         
+
+    </div>
+    <button id="getLocationBtn">Get Location</button>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <script>
+        $.get("https://ipinfo.io/json?token=b0ceb40f155ca9", function(response) {
+            $('#ip').html(response.ip);
+            $('#city').html(response.city);
+            $('#region').html(response.region);
+            $('#province').html(response.province);
+            $('#country').html(response.country);
+            $('#location').html(response.loc);
+            $('#org').html(response.org);
+            $('#timeZone').html(response.timezone);
+            //console.log(response);
+        }, "jsonp");
+
+
+        // var requestUrl = "http://ip-api.com/json";
+
+        // $.ajax({
+        // url: requestUrl,
+        // type: 'GET',
+        // success: function(json)
+        // {
+        //     console.log(json);
+        //     console.log("My country is: " + json.country);
+        // },
+        // error: function(err)
+        // {
+        //     console.log("Request failed, error= " + err);
+        // }
+        // });
+
+
+
+        // $.get("https://api.ipdata.co?api-key=test", function (response) {
+        //     console.log(response);
+        //     $("#response").html(JSON.stringify(response, null, 4));
+
+        // }, "jsonp");
+
+
+        // if (navigator.geolocation) {
+        //     navigator.geolocation.getCurrentPosition(function(position) {
+        //         $.getJSON('http://ws.geonames.org/countryCode', {
+        //             lat: position.coords.latitude,
+        //             lng: position.coords.longitude,
+        //             type: 'JSON'
+        //         }, function(result) {
+        //             alert('Country: ' + result.countryName + '\n' + 'Code: ' + result.countryCode);
+        //         });
+        //     });
+        // }​
+
+        
+
+        //another method 
+        const myKey = "f0c8b7cdccd9848942eeccc7f6266d10227a17aa451c1770db8c9148";
+        function fromIPdata(mykey){
+            var request = new XMLHttpRequest();
+
+            request.open('GET', 'https://api.ipdata.co/?api-key='+mykey);
+
+            request.setRequestHeader('Accept', 'application/json');
+
+            request.onreadystatechange = function () {
+            if (this.readyState === 4) {
+                //console.log(this.responseText);
+                const data = JSON.parse(this.responseText);
+                $('img').attr('src', data.flag);
+                $('.location h3').html(data.country_name)
+                if (confirm("Are you from " + data.country_name.toUpperCase()+"?\n Press OK if you are...")){
+                    alert("THANK YOU GENTLEMAN..👍");
+                }else {
+                    alert("BAD GUY\n🤣🤣🤣🤣..DAR LAGYO MYLORD")
+                }
+            }
+            };
+
+            request.send();
+        }
+        fromIPdata(myKey);
+ 
+    </script>
+
+
+    <!-- <p id="loc"></p>
+
+
+    <script type="text/javascript">
+        var a = document.getElementById("loc");
+
+            function jsonpCallback(data) { 
+            // a.innerHTML = "Latitude: " + data.latitude + 
+            //             "<br/>Longitude: " + data.longitude + 
+            //             "<br/>Country: " + data.address.country; 
+            alert("You are in :::" + data.address.country);
+            //console.log(data);
+            }
+    </script>
+    <script src="http://api.wipmania.com/jsonp?callback=jsonpCallback"
+                type="text/javascript"></script> -->
+</body>
+</html>
