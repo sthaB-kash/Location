@@ -123,7 +123,9 @@
             if (this.readyState === 4) {
                 //console.log(this.responseText);
                 const data = JSON.parse(this.responseText);
-                $('img').attr('src', data.flag);
+                const flag = "https://www.countryflags.io/"+data.country_code+"/flat/64.png";
+                $('img').attr('src',flag);
+                $('.location h3').html(data.country_name)
                 $('.location h3').html(data.country_name)
                 if (confirm("Are you from " + data.country_name.toUpperCase()+"?\n Press OK if you are...")){
                     alert("THANK YOU GENTLEMAN..👍");
